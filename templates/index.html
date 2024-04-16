@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Pediction</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f2f2f2;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    color: #333;
+}
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.button-container {
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+p {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* Style for the file input */
+#fileInput {
+    display: none; /* Hide the input visually */
+}
+
+.custom-input {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* Style for the file contents display area */
+#fileContents {
+    margin-top: 10px;
+    white-space: pre-line; /* Preserve line breaks in text content */
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    display: table;
+    border: 1px solid #ccc;
+}
+
+table tr:nth-child(odd) {
+    background-color: #fff;
+}
+table tr:nth-child(even) {
+    background-color: #E7E9EB;
+}
+td, th {
+    padding: 8px 8px;
+    display: table-cell;
+    text-align: left;
+    vertical-align: top;
+}
+    </style>
+    <div class="container" style="width:500px">
+        <h1>Predict Cost</h1>
+        <form method="POST" action="/predict">
+            <div class="input-group">
+                <label for="restaurant-type">Restuarant Type:</label>
+                <input type="text" id="restaurant_type" name="restaurant_type" placeholder="object" required>
+            </div>
+            <div class="input-group">
+                <label for="rate">Rate (out of 5):</label>
+                <input type="number" step="any" id="rate" name="rate" placeholder="float" required>
+            </div>
+            <div class="input-group">
+                <label for="ratings">No. of reviews:</label>
+                <input type="number" id="ratings" name="ratings" placeholder="int" required>
+            </div>
+            <div class="input-group">
+                <label for="online_order">Online order:</label>
+                <select class="input-group" name="online_order" id="online_order">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="table_booking">Table booking:</label>
+                <select class="input-group" name="table_booking" id="table_booking">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="cuisines_type">Cuisine type:</label>
+                <input type="text" id="cuisines_type" name="cuisines_type" placeholder="object" required>
+            </div>
+            <div class="input-group">
+                <label for="area">Area:</label>
+                <input type="text" id="area" name="area" placeholder="object" required>
+            </div>
+            <div class="button-container">
+                <button type="submit">Predict</button>
+            </div>
+            <p>Cost is: {{ result }}</p>
+        </form>
+    </div>
+    <div class="container" style="width:800px">
+        <h1>Upload txt file to Predict</h1>
+        <form id="fileForm" method="POST" action="/batch" enctype="multipart/form-data">
+            <label for="fileInput" class="custom-input">Select a Text File</label>
+            <input type="file" id="fileInput" name='file' accept=".txt" required>
+            <button type="submit" id="importButton">Predict</button>
+        </form>
+        {{ table|safe }}
+    </div>
+</body>
+</html>
